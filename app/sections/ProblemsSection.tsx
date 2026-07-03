@@ -95,18 +95,43 @@ export default function ProblemsSection() {
       />
 
       <div className="max-w-7xl mx-auto relative z-10">
-        <div className="text-center mb-14 reveal-on-scroll">
-          <span className="section-tag mb-4 inline-block">The Problem</span>
-          <h2
-            className="text-3xl sm:text-4xl md:text-5xl font-black leading-tight mb-4"
-            style={{ color: "#f0f0f0", letterSpacing: "-0.02em" }}
-          >
-            The industry{" "}
-            <span className="purple-text">wasn&apos;t built for you.</span>
-          </h2>
-          <p className="text-base max-w-xl mx-auto" style={{ color: "rgba(240,240,240,0.45)" }}>
-            Labels and publishers profit from the confusion. Time to flip the script.
-          </p>
+        <div className="flex flex-col lg:flex-row-reverse items-center gap-10 mb-16">
+          <div className="flex-1 text-center lg:text-left reveal-on-scroll">
+            <span className="section-tag mb-4 inline-block">The Problem</span>
+            <h2
+              className="text-3xl sm:text-4xl md:text-5xl font-black leading-tight mb-4"
+              style={{ color: "#f0f0f0", letterSpacing: "-0.02em" }}
+            >
+              The industry{" "}
+              <span className="purple-text">wasn&apos;t built for you.</span>
+            </h2>
+            <p className="text-base max-w-xl" style={{ color: "rgba(240,240,240,0.45)" }}>
+              Labels and publishers profit from the confusion. Time to flip the script.
+            </p>
+          </div>
+
+          <div className="relative flex-shrink-0 w-full lg:w-[400px] reveal-on-scroll stagger-1">
+            <div
+              className="relative rounded-2xl overflow-hidden"
+              style={{
+                boxShadow: "0 0 0 1px rgba(108,43,217,0.2), 0 30px 80px rgba(0,0,0,0.5)",
+              }}
+            >
+              <img
+                src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800&q=80&auto=format"
+                alt="Artist overwhelmed by music paperwork and contracts"
+                loading="lazy"
+                className="w-full object-cover"
+                style={{ height: "300px", display: "block" }}
+              />
+              <div
+                className="absolute inset-0"
+                style={{
+                  background: "linear-gradient(to right, rgba(13,10,26,0.7) 0%, rgba(108,43,217,0.2) 100%)",
+                }}
+              />
+            </div>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">

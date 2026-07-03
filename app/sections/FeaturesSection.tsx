@@ -183,6 +183,157 @@ export default function FeaturesSection() {
           </p>
         </div>
 
+        {/* Dashboard mockup */}
+        <div
+          className="mb-12 rounded-2xl overflow-hidden reveal-on-scroll"
+          style={{
+            background: "rgba(10,10,18,0.95)",
+            border: "1px solid rgba(108,43,217,0.25)",
+            boxShadow: "0 0 0 1px rgba(108,43,217,0.1), 0 40px 120px rgba(0,0,0,0.7), 0 0 60px rgba(108,43,217,0.08)",
+          }}
+        >
+          {/* Window chrome */}
+          <div
+            className="flex items-center gap-2 px-4 py-3"
+            style={{ background: "rgba(15,15,26,1)", borderBottom: "1px solid rgba(255,255,255,0.05)" }}
+          >
+            <div className="w-3 h-3 rounded-full" style={{ background: "#ff5f57" }} />
+            <div className="w-3 h-3 rounded-full" style={{ background: "#febc2e" }} />
+            <div className="w-3 h-3 rounded-full" style={{ background: "#28c840" }} />
+            <div className="flex-1 mx-4">
+              <div
+                className="mx-auto px-3 py-1 rounded-md text-xs"
+                style={{ background: "rgba(255,255,255,0.04)", color: "#444", maxWidth: "280px", textAlign: "center" }}
+              >
+                app.musicrightsos.com/dashboard
+              </div>
+            </div>
+          </div>
+
+          <div className="flex" style={{ minHeight: "380px" }}>
+            {/* Sidebar */}
+            <div
+              className="flex-shrink-0 w-14 sm:w-52 flex flex-col py-4 gap-1"
+              style={{ background: "rgba(10,10,16,0.9)", borderRight: "1px solid rgba(255,255,255,0.04)" }}
+            >
+              <div className="px-3 mb-3 hidden sm:block">
+                <span className="text-xs font-black" style={{ color: "#f5c518", letterSpacing: "0.1em" }}>MROS</span>
+              </div>
+              {[
+                { label: "Rights Dashboard", icon: "▣", color: "#f5c518", active: true },
+                { label: "Royalty Pocket", icon: "$", color: "#10b981", active: false },
+                { label: "Split Sheets", icon: "⊘", color: "#8b5cf6", active: false },
+                { label: "Opportunity Feed", icon: "◈", color: "#3b82f6", active: false },
+                { label: "Business OS", icon: "≈", color: "#ec4899", active: false },
+              ].map(({ label, icon, color, active }) => (
+                <div
+                  key={label}
+                  className="flex items-center gap-3 px-3 py-2.5 rounded-lg mx-1.5 cursor-pointer"
+                  style={{
+                    background: active ? `${color}14` : "transparent",
+                    borderLeft: active ? `2px solid ${color}` : "2px solid transparent",
+                  }}
+                >
+                  <span className="text-sm w-5 text-center" style={{ color: active ? color : "#333" }}>{icon}</span>
+                  <span className="text-xs hidden sm:block" style={{ color: active ? "#f0f0f0" : "#444" }}>{label}</span>
+                </div>
+              ))}
+            </div>
+
+            {/* Main content */}
+            <div className="flex-1 p-5 overflow-hidden">
+              <div className="flex items-center justify-between mb-5">
+                <div>
+                  <p className="text-xs" style={{ color: "#555" }}>Rights Dashboard</p>
+                  <p className="text-sm font-bold" style={{ color: "#f0f0f0" }}>Your Music Catalog</p>
+                </div>
+                <div
+                  className="px-3 py-1.5 rounded-lg text-xs font-bold"
+                  style={{ background: "rgba(245,197,24,0.12)", color: "#f5c518", border: "1px solid rgba(245,197,24,0.2)" }}
+                >
+                  + Register New Work
+                </div>
+              </div>
+
+              {/* KPI row */}
+              <div className="grid grid-cols-3 gap-3 mb-5">
+                {[
+                  { label: "Total Works", value: "47", color: "#f5c518", delta: "+3 this month" },
+                  { label: "Royalties YTD", value: "$12,840", color: "#10b981", delta: "+$2,100 vs last yr" },
+                  { label: "Pending Splits", value: "2", color: "#ec4899", delta: "Action needed" },
+                ].map(({ label, value, color, delta }) => (
+                  <div
+                    key={label}
+                    className="p-3 rounded-xl"
+                    style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.05)" }}
+                  >
+                    <p className="text-xs mb-1" style={{ color: "#444" }}>{label}</p>
+                    <p className="text-lg font-black" style={{ color }}>{value}</p>
+                    <p className="text-xs mt-0.5" style={{ color: "#333" }}>{delta}</p>
+                  </div>
+                ))}
+              </div>
+
+              {/* Royalty bar chart */}
+              <div className="mb-5">
+                <p className="text-xs font-bold mb-3" style={{ color: "#555" }}>Monthly Royalties — Last 6 Months</p>
+                <div className="flex items-end gap-2" style={{ height: "72px" }}>
+                  {[40, 55, 38, 70, 62, 88].map((h, i) => (
+                    <div key={i} className="flex-1 flex flex-col items-center gap-1">
+                      <div
+                        className="w-full rounded-t-md"
+                        style={{
+                          height: `${h}%`,
+                          background: i === 5
+                            ? "linear-gradient(180deg, #f5c518, #b8960f)"
+                            : "rgba(108,43,217,0.35)",
+                        }}
+                      />
+                    </div>
+                  ))}
+                </div>
+                <div className="flex gap-2 mt-1">
+                  {["Feb", "Mar", "Apr", "May", "Jun", "Jul"].map((m) => (
+                    <div key={m} className="flex-1 text-center text-xs" style={{ color: "#333" }}>{m}</div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Song list */}
+              <div>
+                <p className="text-xs font-bold mb-2" style={{ color: "#555" }}>Recent Works</p>
+                <div className="flex flex-col gap-1.5">
+                  {[
+                    { title: "Late Nights (feat. Nia B.)", split: "60%", status: "Registered", statusColor: "#10b981" },
+                    { title: "Gold Rush", split: "100%", status: "Registered", statusColor: "#10b981" },
+                    { title: "Frequency (collab)", split: "40%", status: "Pending Split", statusColor: "#f5c518" },
+                  ].map(({ title, split, status, statusColor }) => (
+                    <div
+                      key={title}
+                      className="flex items-center justify-between px-3 py-2 rounded-lg"
+                      style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.04)" }}
+                    >
+                      <div className="flex items-center gap-2 min-w-0">
+                        <div className="w-6 h-6 rounded-md flex-shrink-0" style={{ background: "rgba(108,43,217,0.25)" }} />
+                        <p className="text-xs truncate" style={{ color: "#ccc" }}>{title}</p>
+                      </div>
+                      <div className="flex items-center gap-4 flex-shrink-0 ml-3">
+                        <span className="text-xs hidden sm:block" style={{ color: "#555" }}>{split} ownership</span>
+                        <span
+                          className="text-xs px-2 py-0.5 rounded-full"
+                          style={{ background: `${statusColor}14`, color: statusColor, border: `1px solid ${statusColor}22` }}
+                        >
+                          {status}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3">
           {modules.map((mod, i) => (
             <div

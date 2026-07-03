@@ -7,42 +7,42 @@ const testimonials = [
     quote: "Found $840 in performance royalties I never knew existed. Within my first week.",
     name: "Marcus T.",
     role: "Hip-Hop Producer, Atlanta",
-    avatar: "MT",
+    avatarUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&q=80&auto=format&fit=crop&crop=faces",
     color: "#f5c518",
   },
   {
     quote: "Split sheets used to be a whole thing. Now it takes 3 minutes, everyone signs digitally.",
     name: "Priya K.",
     role: "Songwriter, Nashville",
-    avatar: "PK",
+    avatarUrl: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=80&h=80&q=80&auto=format&fit=crop&crop=faces",
     color: "#8b5cf6",
   },
   {
     quote: "The Producer CRM alone is worth 10x the subscription. Never going back to spreadsheets.",
     name: "Devon R.",
     role: "Label Owner, Los Angeles",
-    avatar: "DR",
+    avatarUrl: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&h=80&q=80&auto=format&fit=crop&crop=faces",
     color: "#3b82f6",
   },
   {
     quote: "Opportunity Feed led to a $3,500 Netflix sync placement. Paid for 5 years of the subscription.",
     name: "Jade M.",
     role: "Beatmaker, Miami",
-    avatar: "JM",
+    avatarUrl: "https://images.unsplash.com/photo-1494790108755-2616b612b1e0?w=80&h=80&q=80&auto=format&fit=crop&crop=faces",
     color: "#ec4899",
   },
   {
     quote: "Gives me the same tools major label artists use. The playing field actually feels level.",
     name: "Chris W.",
     role: "Electronic Producer, Chicago",
-    avatar: "CW",
+    avatarUrl: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&h=80&q=80&auto=format&fit=crop&crop=faces",
     color: "#10b981",
   },
   {
     quote: "Tax season organized. My accountant actually thanked me. First time ever.",
     name: "Nia B.",
     role: "R&B Artist, New York",
-    avatar: "NB",
+    avatarUrl: "https://images.unsplash.com/photo-1526413232644-8a40f03cc03b?w=80&h=80&q=80&auto=format&fit=crop&crop=faces",
     color: "#f5c518",
   },
 ];
@@ -100,14 +100,15 @@ export default function TestimonialsSection() {
                 style={{ borderTop: "1px solid rgba(255,255,255,0.05)" }}
               >
                 <div
-                  className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-black shrink-0"
-                  style={{
-                    background: `${t.color}22`,
-                    color: t.color,
-                    border: `1px solid ${t.color}33`,
-                  }}
+                  className="w-9 h-9 rounded-full overflow-hidden shrink-0"
+                  style={{ border: `1.5px solid ${t.color}44` }}
                 >
-                  {t.avatar}
+                  <img
+                    src={t.avatarUrl}
+                    alt={t.name}
+                    loading="lazy"
+                    className="w-full h-full object-cover"
+                  />
                 </div>
                 <div>
                   <p className="text-sm font-bold" style={{ color: "#f0f0f0" }}>

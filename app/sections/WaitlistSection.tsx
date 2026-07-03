@@ -12,6 +12,21 @@ export default function WaitlistSection() {
       className="py-24 px-6 relative overflow-hidden"
       style={{ background: "#0a0a0f" }}
     >
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <img
+          src="https://images.unsplash.com/photo-1501386761578-eaa54b4c5f46?w=1400&q=60&auto=format"
+          alt=""
+          aria-hidden="true"
+          loading="lazy"
+          className="w-full h-full object-cover"
+          style={{ opacity: 0.1 }}
+        />
+        <div
+          className="absolute inset-0"
+          style={{ background: "linear-gradient(to bottom, #0a0a0f 0%, rgba(10,10,15,0.4) 50%, #0a0a0f 100%)" }}
+        />
+      </div>
+
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
