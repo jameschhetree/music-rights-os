@@ -1,86 +1,159 @@
-import ParticleField from "../components/ParticleField";
+"use client";
+
+import { useEffect, useRef } from "react";
 import Link from "next/link";
+import ParticleField from "../components/ParticleField";
+
+function FloatingOrb({
+  color,
+  size,
+  top,
+  left,
+  delay,
+  blur,
+}: {
+  color: string;
+  size: number;
+  top: string;
+  left: string;
+  delay: string;
+  blur: number;
+}) {
+  return (
+    <div
+      className="absolute rounded-full pointer-events-none animate-pulse-orb"
+      style={{
+        width: size,
+        height: size,
+        top,
+        left,
+        background: color,
+        filter: `blur(${blur}px)`,
+        animationDelay: delay,
+      }}
+    />
+  );
+}
+
+const words = ["Own", "Your", "Music."];
+const wordsTwo = ["Maximize", "Your", "Income."];
 
 export default function HeroSection() {
+  const wordRefs = useRef<(HTMLSpanElement | null)[]>([]);
+
+  useEffect(() => {
+    wordRefs.current.forEach((el, i) => {
+      if (!el) return;
+      el.style.animation = `word-appear 0.5s cubic-bezier(0.4,0,0.2,1) forwards`;
+      el.style.animationDelay = `${0.4 + i * 0.12}s`;
+      el.style.opacity = "0";
+    });
+  }, []);
+
   return (
     <section
       className="relative min-h-screen flex flex-col items-center justify-center text-center overflow-hidden"
-      style={{
-        background:
-          "radial-gradient(ellipse 80% 60% at 50% -10%, rgba(245,197,24,0.12) 0%, transparent 60%), #080808",
-      }}
+      style={{ background: "#0a0a0f" }}
     >
-      <div className="grid-glow absolute inset-0 opacity-40" />
+      <div className="grid-glow absolute inset-0 opacity-30" />
       <ParticleField />
 
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(circle 600px at 50% 40%, rgba(245,197,24,0.05) 0%, transparent 70%)",
-        }}
-      />
+      <FloatingOrb color="rgba(108,43,217,0.35)" size={500} top="-10%" left="-10%" delay="0s" blur={100} />
+      <FloatingOrb color="rgba(245,197,24,0.2)" size={380} top="60%" left="75%" delay="1.5s" blur={90} />
+      <FloatingOrb color="rgba(59,130,246,0.25)" size={320} top="30%" left="80%" delay="0.8s" blur={80} />
+      <FloatingOrb color="rgba(236,72,153,0.2)" size={280} top="70%" left="-5%" delay="2s" blur={80} />
+      <FloatingOrb color="rgba(16,185,129,0.15)" size={240} top="10%" left="60%" delay="1.2s" blur={70} />
 
       <div className="relative z-10 max-w-5xl mx-auto px-6 pt-24 pb-16">
-        <div className="flex justify-center mb-6">
-          <span className="section-tag">
+        <div
+          className="flex justify-center mb-8"
+          style={{ animation: "reveal-up 0.6s cubic-bezier(0.4,0,0.2,1) 0.1s both" }}
+        >
+          <span className="section-tag section-tag-gold">
             <span
               className="w-1.5 h-1.5 rounded-full animate-pulse-gold"
               style={{ background: "#f5c518" }}
             />
-            Now in Early Access — Join 2,400+ Artists
+            Early Access — 2,400+ Artists
           </span>
         </div>
 
         <h1
           className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black leading-none tracking-tight mb-8"
-          style={{ color: "#f0f0f0", letterSpacing: "-0.03em" }}
+          style={{ letterSpacing: "-0.03em" }}
         >
-          Own Your Music.{" "}
-          <span className="gold-text block sm:inline">
-            Maximize Your Income.
-          </span>
+          <div className="flex flex-wrap justify-center gap-x-4 gap-y-0 mb-3">
+            {words.map((w, i) => (
+              <span
+                key={w}
+                ref={(el) => { wordRefs.current[i] = el; }}
+                style={{ color: "#f0f0f0", opacity: 0, display: "inline-block" }}
+              >
+                {w}
+              </span>
+            ))}
+          </div>
+          <div className="flex flex-wrap justify-center gap-x-4 gap-y-0">
+            {wordsTwo.map((w, i) => (
+              <span
+                key={w}
+                ref={(el) => { wordRefs.current[words.length + i] = el; }}
+                className="gradient-text-multi"
+                style={{ opacity: 0, display: "inline-block" }}
+              >
+                {w}
+              </span>
+            ))}
+          </div>
         </h1>
 
         <p
-          className="text-lg sm:text-xl md:text-2xl max-w-3xl mx-auto leading-relaxed mb-10"
-          style={{ color: "rgba(240,240,240,0.6)" }}
+          className="text-lg sm:text-xl max-w-2xl mx-auto leading-relaxed mb-10"
+          style={{
+            color: "rgba(240,240,240,0.55)",
+            animation: "reveal-up 0.6s cubic-bezier(0.4,0,0.2,1) 1.2s both",
+          }}
         >
-          Independent artists lose thousands in royalties every year due to missed registrations,
-          unclear ownership, and fragmented tools. Music Rights OS puts your entire music business
-          in one place.
+          The all-in-one OS for independent artists. Manage rights, royalties, contracts — nothing slips through.
         </p>
 
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
-          <Link href="#waitlist" className="btn-gold text-base" style={{ padding: "16px 36px", fontSize: "16px" }}>
+        <div
+          className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-20"
+          style={{ animation: "reveal-up 0.6s cubic-bezier(0.4,0,0.2,1) 1.4s both" }}
+        >
+          <Link href="#waitlist" className="btn-gold" style={{ padding: "16px 36px", fontSize: "16px" }}>
             Get Early Access — Free
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
               <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </Link>
-          <Link href="/ecosystem" className="btn-ghost text-base" style={{ padding: "15px 32px", fontSize: "16px" }}>
-            See How It Works
+          <Link href="/ecosystem" className="btn-ghost" style={{ padding: "15px 32px", fontSize: "16px" }}>
+            See the Ecosystem
           </Link>
         </div>
 
-        <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-10">
+        <div
+          className="grid grid-cols-2 sm:grid-cols-4 gap-6 max-w-3xl mx-auto"
+          style={{ animation: "reveal-up 0.6s cubic-bezier(0.4,0,0.2,1) 1.6s both" }}
+        >
           {[
-            { value: "10M+", label: "Independent Artists Globally" },
-            { value: "$29.6B", label: "Music Industry (2024)" },
-            { value: "10", label: "Integrated Modules" },
-            { value: "0%", label: "Commission Taken" },
-          ].map(({ value, label }) => (
-            <div key={label} className="flex flex-col items-center gap-1">
-              <span
-                className="text-2xl sm:text-3xl font-black"
-                style={{ color: "#f5c518" }}
-              >
+            { value: "$29.6B", label: "Market Size", color: "#f5c518" },
+            { value: "10M+", label: "Independent Artists", color: "#8b5cf6" },
+            { value: "10", label: "Integrated Modules", color: "#3b82f6" },
+            { value: "0%", label: "Commission Taken", color: "#10b981" },
+          ].map(({ value, label, color }) => (
+            <div
+              key={label}
+              className="flex flex-col items-center gap-1 py-4 px-3 rounded-2xl"
+              style={{
+                background: "rgba(255,255,255,0.03)",
+                border: "1px solid rgba(255,255,255,0.06)",
+              }}
+            >
+              <span className="text-2xl sm:text-3xl font-black" style={{ color }}>
                 {value}
               </span>
-              <span
-                className="text-xs font-medium text-center"
-                style={{ color: "#666", maxWidth: "100px" }}
-              >
+              <span className="text-xs text-center" style={{ color: "#555", maxWidth: "90px" }}>
                 {label}
               </span>
             </div>
@@ -89,15 +162,15 @@ export default function HeroSection() {
       </div>
 
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-float">
-        <span className="text-xs uppercase tracking-widest" style={{ color: "#444" }}>
-          Scroll
-        </span>
         <div
           className="w-px h-10"
           style={{
-            background:
-              "linear-gradient(to bottom, rgba(245,197,24,0.6), transparent)",
+            background: "linear-gradient(to bottom, rgba(108,43,217,0.8), transparent)",
           }}
+        />
+        <div
+          className="w-1 h-1 rounded-full"
+          style={{ background: "rgba(108,43,217,0.6)" }}
         />
       </div>
     </section>

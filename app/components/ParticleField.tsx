@@ -11,7 +11,16 @@ interface Particle {
   opacity: number;
   pulse: number;
   pulseSpeed: number;
+  colorIndex: number;
 }
+
+const COLORS = [
+  "245,197,24",
+  "108,43,217",
+  "59,130,246",
+  "236,72,153",
+  "16,185,129",
+];
 
 export default function ParticleField() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -23,7 +32,7 @@ export default function ParticleField() {
     if (!ctx) return;
 
     let animId: number;
-    const PARTICLE_COUNT = 60;
+    const PARTICLE_COUNT = 55;
     const particles: Particle[] = [];
 
     const resize = () => {
@@ -34,12 +43,13 @@ export default function ParticleField() {
     const spawnParticle = (): Particle => ({
       x: Math.random() * (canvas.width || 1200),
       y: Math.random() * (canvas.height || 800),
-      vx: (Math.random() - 0.5) * 0.3,
-      vy: (Math.random() - 0.5) * 0.3,
-      size: Math.random() * 2 + 0.5,
-      opacity: Math.random() * 0.5 + 0.1,
+      vx: (Math.random() - 0.5) * 0.25,
+      vy: (Math.random() - 0.5) * 0.25,
+      size: Math.random() * 1.8 + 0.4,
+      opacity: Math.random() * 0.4 + 0.1,
       pulse: Math.random() * Math.PI * 2,
-      pulseSpeed: Math.random() * 0.02 + 0.005,
+      pulseSpeed: Math.random() * 0.018 + 0.004,
+      colorIndex: Math.floor(Math.random() * COLORS.length),
     });
 
     resize();
@@ -58,10 +68,11 @@ export default function ParticleField() {
         if (p.y < 0) p.y = canvas.height;
         if (p.y > canvas.height) p.y = 0;
 
-        const alpha = p.opacity * (0.6 + 0.4 * Math.sin(p.pulse));
+        const alpha = p.opacity * (0.5 + 0.5 * Math.sin(p.pulse));
+        const color = COLORS[p.colorIndex];
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(245,197,24,${alpha})`;
+        ctx.fillStyle = `rgba(${color},${alpha})`;
         ctx.fill();
       });
 
@@ -71,12 +82,12 @@ export default function ParticleField() {
           const dx = a.x - b.x;
           const dy = a.y - b.y;
           const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 120) {
-            const alpha = (1 - dist / 120) * 0.12;
+          if (dist < 110) {
+            const alpha = (1 - dist / 110) * 0.08;
             ctx.beginPath();
             ctx.moveTo(a.x, a.y);
             ctx.lineTo(b.x, b.y);
-            ctx.strokeStyle = `rgba(245,197,24,${alpha})`;
+            ctx.strokeStyle = `rgba(${COLORS[a.colorIndex]},${alpha})`;
             ctx.lineWidth = 0.5;
             ctx.stroke();
           }
@@ -98,7 +109,7 @@ export default function ParticleField() {
     <canvas
       ref={canvasRef}
       className="absolute inset-0 w-full h-full pointer-events-none"
-      style={{ opacity: 0.7 }}
+      style={{ opacity: 0.6 }}
     />
   );
 }
