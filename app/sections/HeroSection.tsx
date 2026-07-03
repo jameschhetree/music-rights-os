@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import Link from "next/link";
 import ParticleField from "../components/ParticleField";
+import WaveformBg from "../components/WaveformBg";
 
 function FloatingOrb({
   color,
@@ -56,6 +57,7 @@ export default function HeroSection() {
       style={{ background: "#0a0a0f" }}
     >
       <div className="grid-glow absolute inset-0 opacity-30" />
+      <WaveformBg />
       <ParticleField />
 
       <FloatingOrb color="rgba(108,43,217,0.35)" size={500} top="-10%" left="-10%" delay="0s" blur={100} />
