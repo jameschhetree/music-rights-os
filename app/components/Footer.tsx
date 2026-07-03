@@ -8,6 +8,12 @@ export default function Footer() {
         borderTop: "1px solid rgba(255,255,255,0.05)",
       }}
     >
+      <style>{`
+        .footer-link { color: #555; text-decoration: none; font-size: 12px; transition: color 0.2s; }
+        .footer-link:hover { color: #f0f0f0; }
+        .footer-social { color: #333; text-decoration: none; font-size: 12px; transition: color 0.2s; }
+        .footer-social:hover { color: #8b5cf6; }
+      `}</style>
       <div className="max-w-7xl mx-auto px-6 py-12">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-10">
           <div className="col-span-2 md:col-span-1">
@@ -66,13 +72,7 @@ export default function Footer() {
               <ul className="flex flex-col gap-2">
                 {links.map(({ label, href }) => (
                   <li key={label}>
-                    <Link
-                      href={href}
-                      className="text-xs transition-colors no-underline"
-                      style={{ color: "#555" }}
-                      onMouseEnter={(e) => { e.currentTarget.style.color = "#f0f0f0"; }}
-                      onMouseLeave={(e) => { e.currentTarget.style.color = "#555"; }}
-                    >
+                    <Link href={href} className="footer-link">
                       {label}
                     </Link>
                   </li>
@@ -91,14 +91,7 @@ export default function Footer() {
           </p>
           <div className="flex items-center gap-4">
             {["TikTok", "Instagram", "YouTube", "Twitter"].map((s) => (
-              <Link
-                key={s}
-                href="#"
-                className="text-xs no-underline transition-colors"
-                style={{ color: "#333" }}
-                onMouseEnter={(e) => { e.currentTarget.style.color = "#8b5cf6"; }}
-                onMouseLeave={(e) => { e.currentTarget.style.color = "#333"; }}
-              >
+              <Link key={s} href="#" className="footer-social">
                 {s}
               </Link>
             ))}
