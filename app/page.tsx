@@ -1,10 +1,10 @@
 import Nav from "./components/Nav";
 import Footer from "./components/Footer";
 import HeroSection from "./sections/HeroSection";
-import ProblemsSection from "./sections/ProblemsSection";
+import BentoSection from "./sections/BentoSection";
 import FeaturesSection from "./sections/FeaturesSection";
+import DesireSection from "./sections/DesireSection";
 import PricingSection from "./sections/PricingSection";
-import ComparisonSection from "./sections/ComparisonSection";
 import TestimonialsSection from "./sections/TestimonialsSection";
 import WaitlistSection from "./sections/WaitlistSection";
 
@@ -12,13 +12,13 @@ export default function Home() {
   return (
     <>
       <Nav />
-      <main className="flex flex-col">
+      <main className="flex flex-col overflow-x-hidden w-full max-w-full">
         <HeroSection />
-        <ProblemsSection />
+        <BentoSection />
         <FeaturesSection />
-        <ComparisonSection />
-        <PricingSection />
+        <DesireSection />
         <TestimonialsSection />
+        <PricingSection />
         <WaitlistSection />
       </main>
       <Footer />

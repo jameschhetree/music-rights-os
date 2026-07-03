@@ -148,7 +148,7 @@ export default function FeaturesSection() {
     <section
       id="features"
       ref={ref}
-      className="py-24 px-6 relative overflow-hidden"
+      className="py-32 md:py-48 px-6 relative overflow-hidden"
       style={{ background: "#0a0a0f" }}
     >
       <div

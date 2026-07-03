@@ -9,9 +9,9 @@ export default function Footer() {
       }}
     >
       <style>{`
-        .footer-link { color: #555; text-decoration: none; font-size: 12px; transition: color 0.2s; }
+        .footer-link { color: #555; text-decoration: none; font-size: 12px; transition: color 0.2s; font-family: 'Outfit', system-ui, sans-serif; }
         .footer-link:hover { color: #f0f0f0; }
-        .footer-social { color: #333; text-decoration: none; font-size: 12px; transition: color 0.2s; }
+        .footer-social { color: #333; text-decoration: none; font-size: 12px; transition: color 0.2s; font-family: 'Outfit', system-ui, sans-serif; }
         .footer-social:hover { color: #8b5cf6; }
       `}</style>
       <div className="max-w-7xl mx-auto px-6 py-12">

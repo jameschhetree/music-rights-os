@@ -40,7 +40,7 @@ export default function ComparisonSection() {
   return (
     <section
       ref={ref}
-      className="py-24 px-6 relative overflow-hidden"
+      className="py-32 md:py-48 px-6 relative overflow-hidden"
       style={{
         background: "linear-gradient(180deg, #0a0a0f 0%, #0d0a1a 60%, #0a0a0f 100%)",
       }}

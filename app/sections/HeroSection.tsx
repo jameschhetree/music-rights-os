@@ -2,277 +2,250 @@
 
 import { useEffect, useRef } from "react";
 import Link from "next/link";
-import ParticleField from "../components/ParticleField";
 import WaveformBg from "../components/WaveformBg";
 
-function FloatingOrb({
-  color,
-  size,
-  top,
-  left,
-  delay,
-  blur,
-}: {
-  color: string;
-  size: number;
-  top: string;
-  left: string;
-  delay: string;
-  blur: number;
-}) {
-  return (
-    <div
-      className="absolute rounded-full pointer-events-none animate-pulse-orb"
-      style={{
-        width: size,
-        height: size,
-        top,
-        left,
-        background: color,
-        filter: `blur(${blur}px)`,
-        animationDelay: delay,
-      }}
-    />
-  );
-}
-
-const words = ["Own", "Your", "Music."];
-const wordsTwo = ["Maximize", "Your", "Income."];
-
 export default function HeroSection() {
-  const wordRefs = useRef<(HTMLSpanElement | null)[]>([]);
+  const h1Ref = useRef<HTMLHeadingElement>(null);
+  const bgImgRef = useRef<HTMLImageElement>(null);
 
   useEffect(() => {
-    wordRefs.current.forEach((el, i) => {
-      if (!el) return;
-      el.style.animation = `word-appear 0.5s cubic-bezier(0.4,0,0.2,1) forwards`;
-      el.style.animationDelay = `${0.4 + i * 0.12}s`;
-      el.style.opacity = "0";
+    const el = h1Ref.current;
+    if (!el) return;
+    const spans = el.querySelectorAll<HTMLSpanElement>("[data-word]");
+    spans.forEach((s, i) => {
+      s.style.opacity = "0";
+      s.style.transform = "translateY(36px)";
+      s.style.transition = `opacity 0.8s cubic-bezier(0.4,0,0.2,1) ${0.15 + i * 0.08}s, transform 0.8s cubic-bezier(0.4,0,0.2,1) ${0.15 + i * 0.08}s`;
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          s.style.opacity = "1";
+          s.style.transform = "translateY(0)";
+        });
+      });
     });
+  }, []);
+
+  useEffect(() => {
+    const img = bgImgRef.current;
+    if (!img) return;
+    const onScroll = () => {
+      const y = window.scrollY;
+      img.style.transform = `translateY(${y * 0.28}px)`;
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   return (
     <section
-      className="relative min-h-screen flex flex-col items-center justify-center text-center overflow-hidden"
-      style={{ background: "#0a0a0f" }}
+      className="relative min-h-screen flex items-center justify-center overflow-hidden grain-overlay"
+      style={{ background: "#080810" }}
     >
-      <div className="grid-glow absolute inset-0 opacity-30" />
-      <WaveformBg />
-      <ParticleField />
-
-      <FloatingOrb color="rgba(108,43,217,0.35)" size={500} top="-10%" left="-10%" delay="0s" blur={100} />
-      <FloatingOrb color="rgba(245,197,24,0.2)" size={380} top="60%" left="75%" delay="1.5s" blur={90} />
-      <FloatingOrb color="rgba(59,130,246,0.25)" size={320} top="30%" left="80%" delay="0.8s" blur={80} />
-      <FloatingOrb color="rgba(236,72,153,0.2)" size={280} top="70%" left="-5%" delay="2s" blur={80} />
-      <FloatingOrb color="rgba(16,185,129,0.15)" size={240} top="10%" left="60%" delay="1.2s" blur={70} />
-
-      <div className="relative z-10 max-w-7xl mx-auto px-6 pt-24 pb-16">
-        <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
-          {/* Left: copy */}
-          <div className="flex-1 text-center lg:text-left">
-            <div
-              className="flex justify-center lg:justify-start mb-8"
-              style={{ animation: "reveal-up 0.6s cubic-bezier(0.4,0,0.2,1) 0.1s both" }}
-            >
-              <span className="section-tag section-tag-gold">
-                <span
-                  className="w-1.5 h-1.5 rounded-full animate-pulse-gold"
-                  style={{ background: "#f5c518" }}
-                />
-                Early Access — 2,400+ Artists
-              </span>
-            </div>
-
-            <h1
-              className="text-5xl sm:text-6xl md:text-7xl font-black leading-none tracking-tight mb-8"
-              style={{ letterSpacing: "-0.03em" }}
-            >
-              <div className="flex flex-wrap justify-center lg:justify-start gap-x-4 gap-y-0 mb-3">
-                {words.map((w, i) => (
-                  <span
-                    key={w}
-                    ref={(el) => { wordRefs.current[i] = el; }}
-                    style={{ color: "#f0f0f0", opacity: 0, display: "inline-block" }}
-                  >
-                    {w}
-                  </span>
-                ))}
-              </div>
-              <div className="flex flex-wrap justify-center lg:justify-start gap-x-4 gap-y-0">
-                {wordsTwo.map((w, i) => (
-                  <span
-                    key={w}
-                    ref={(el) => { wordRefs.current[words.length + i] = el; }}
-                    className="gradient-text-multi"
-                    style={{ opacity: 0, display: "inline-block" }}
-                  >
-                    {w}
-                  </span>
-                ))}
-              </div>
-            </h1>
-
-            <p
-              className="text-lg sm:text-xl max-w-xl leading-relaxed mb-10 mx-auto lg:mx-0"
-              style={{
-                color: "rgba(240,240,240,0.55)",
-                animation: "reveal-up 0.6s cubic-bezier(0.4,0,0.2,1) 1.2s both",
-              }}
-            >
-              The all-in-one OS for independent artists. Manage rights, royalties, contracts — nothing slips through.
-            </p>
-
-            <div
-              className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 mb-14"
-              style={{ animation: "reveal-up 0.6s cubic-bezier(0.4,0,0.2,1) 1.4s both" }}
-            >
-              <Link href="#waitlist" className="btn-gold" style={{ padding: "16px 36px", fontSize: "16px" }}>
-                Get Early Access — Free
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                  <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </Link>
-              <Link href="/ecosystem" className="btn-ghost" style={{ padding: "15px 32px", fontSize: "16px" }}>
-                See the Ecosystem
-              </Link>
-            </div>
-
-            <div
-              className="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-xl mx-auto lg:mx-0"
-              style={{ animation: "reveal-up 0.6s cubic-bezier(0.4,0,0.2,1) 1.6s both" }}
-            >
-              {[
-                { value: "$29.6B", label: "Market Size", color: "#f5c518" },
-                { value: "10M+", label: "Independent Artists", color: "#8b5cf6" },
-                { value: "10", label: "Integrated Modules", color: "#3b82f6" },
-                { value: "0%", label: "Commission Taken", color: "#10b981" },
-              ].map(({ value, label, color }) => (
-                <div
-                  key={label}
-                  className="flex flex-col items-center gap-1 py-4 px-3 rounded-2xl"
-                  style={{
-                    background: "rgba(255,255,255,0.03)",
-                    border: "1px solid rgba(255,255,255,0.06)",
-                  }}
-                >
-                  <span className="text-2xl sm:text-3xl font-black" style={{ color }}>
-                    {value}
-                  </span>
-                  <span className="text-xs text-center" style={{ color: "#555", maxWidth: "90px" }}>
-                    {label}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Equalizer bars decoration */}
-          <div
-            className="flex items-end gap-1 mt-6 justify-center lg:justify-start"
-            style={{ height: "40px", animation: "reveal-up 0.6s cubic-bezier(0.4,0,0.2,1) 1.8s both" }}
-          >
-            {[
-              { cls: "eq-bar-1", color: "#f5c518" },
-              { cls: "eq-bar-2", color: "#8b5cf6" },
-              { cls: "eq-bar-3", color: "#3b82f6" },
-              { cls: "eq-bar-4", color: "#ec4899" },
-              { cls: "eq-bar-5", color: "#10b981" },
-              { cls: "eq-bar-1", color: "#f5c518" },
-              { cls: "eq-bar-3", color: "#8b5cf6" },
-              { cls: "eq-bar-2", color: "#3b82f6" },
-              { cls: "eq-bar-5", color: "#f5c518" },
-              { cls: "eq-bar-4", color: "#10b981" },
-            ].map(({ cls, color }, i) => (
-              <div
-                key={i}
-                className={`rounded-full ${cls}`}
-                style={{ width: "4px", background: color, opacity: 0.7 }}
-              />
-            ))}
-            <span className="text-xs ml-3 self-center" style={{ color: "#444" }}>Live royalty tracking</span>
-          </div>
-
-          {/* Right: studio photo */}
-          <div
-            className="relative flex-shrink-0 w-full lg:w-[460px] xl:w-[520px]"
-            style={{ animation: "reveal-up 0.7s cubic-bezier(0.4,0,0.2,1) 0.3s both" }}
-          >
-            <div
-              className="relative rounded-3xl overflow-hidden"
-              style={{
-                boxShadow: "0 0 0 1px rgba(108,43,217,0.25), 0 40px 100px rgba(0,0,0,0.6), 0 0 80px rgba(108,43,217,0.15)",
-              }}
-            >
-              <img
-                src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=900&q=80&auto=format"
-                alt="Music producer in a recording studio at night"
-                loading="lazy"
-                className="w-full object-cover"
-                style={{ height: "520px", display: "block" }}
-              />
-              <div
-                className="absolute inset-0"
-                style={{
-                  background: "linear-gradient(135deg, rgba(108,43,217,0.35) 0%, rgba(0,0,0,0.2) 50%, rgba(245,197,24,0.15) 100%)",
-                }}
-              />
-              <div
-                className="absolute inset-0"
-                style={{
-                  background: "linear-gradient(to top, rgba(10,10,15,0.85) 0%, transparent 50%)",
-                }}
-              />
-              <div className="absolute bottom-5 left-5 right-5">
-                <div
-                  className="flex items-center gap-3 px-4 py-3 rounded-2xl"
-                  style={{
-                    background: "rgba(10,10,15,0.85)",
-                    border: "1px solid rgba(108,43,217,0.3)",
-                    backdropFilter: "blur(12px)",
-                  }}
-                >
-                  <div
-                    className="w-8 h-8 rounded-xl flex items-center justify-center shrink-0"
-                    style={{ background: "rgba(245,197,24,0.15)", border: "1px solid rgba(245,197,24,0.3)" }}
-                  >
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#f5c518" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <line x1="12" y1="1" x2="12" y2="23" />
-                      <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
-                    </svg>
-                  </div>
-                  <div>
-                    <p className="text-xs font-bold" style={{ color: "#f5c518" }}>$840 recovered</p>
-                    <p className="text-xs" style={{ color: "rgba(240,240,240,0.45)" }}>Performance royalties — BMI Q3</p>
-                  </div>
-                  <div className="ml-auto">
-                    <div className="w-2 h-2 rounded-full animate-pulse" style={{ background: "#10b981" }} />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div
-              className="absolute -top-6 -right-6 w-40 h-40 rounded-full pointer-events-none"
-              style={{ background: "rgba(245,197,24,0.12)", filter: "blur(50px)" }}
-            />
-            <div
-              className="absolute -bottom-6 -left-6 w-32 h-32 rounded-full pointer-events-none"
-              style={{ background: "rgba(108,43,217,0.2)", filter: "blur(40px)" }}
-            />
-          </div>
-        </div>
-      </div>
-
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-float">
-        <div
-          className="w-px h-10"
+      {/* Full-bleed parallax background */}
+      <div className="absolute inset-0 z-0 overflow-hidden">
+        <img
+          ref={bgImgRef}
+          src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=1920&q=70&auto=format"
+          alt=""
+          aria-hidden="true"
+          className="parallax-hero-img w-full h-[120%] object-cover -top-[10%] absolute"
           style={{
-            background: "linear-gradient(to bottom, rgba(108,43,217,0.8), transparent)",
+            filter: "grayscale(100%) contrast(1.25)",
+            mixBlendMode: "luminosity",
+            opacity: 0.14,
           }}
         />
         <div
-          className="w-1 h-1 rounded-full"
-          style={{ background: "rgba(108,43,217,0.6)" }}
+          className="absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(ellipse 80% 60% at 50% 40%, rgba(108,43,217,0.22) 0%, transparent 60%), radial-gradient(ellipse 60% 80% at 80% 80%, rgba(245,197,24,0.07) 0%, transparent 60%), linear-gradient(to bottom, rgba(8,8,16,0.55) 0%, rgba(8,8,16,0.82) 60%, rgba(8,8,16,1) 100%)",
+          }}
         />
+      </div>
+
+      {/* Grid texture */}
+      <div
+        className="absolute inset-0 z-0 pointer-events-none"
+        style={{
+          backgroundImage:
+            "linear-gradient(rgba(108,43,217,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(108,43,217,0.04) 1px, transparent 1px)",
+          backgroundSize: "80px 80px",
+        }}
+      />
+
+      {/* Ambient orbs */}
+      <div
+        className="absolute pointer-events-none orb-drift"
+        style={{
+          top: "-8%",
+          left: "-5%",
+          width: "700px",
+          height: "700px",
+          borderRadius: "50%",
+          background: "rgba(108,43,217,0.18)",
+          filter: "blur(140px)",
+        }}
+      />
+      <div
+        className="absolute pointer-events-none orb-drift-slow"
+        style={{
+          bottom: "-12%",
+          right: "0%",
+          width: "500px",
+          height: "500px",
+          borderRadius: "50%",
+          background: "rgba(245,197,24,0.1)",
+          filter: "blur(120px)",
+        }}
+      />
+      <div
+        className="absolute pointer-events-none orb-drift"
+        style={{
+          top: "30%",
+          right: "-10%",
+          width: "380px",
+          height: "380px",
+          borderRadius: "50%",
+          background: "rgba(59,130,246,0.08)",
+          filter: "blur(100px)",
+          animationDelay: "6s",
+        }}
+      />
+
+      {/* WaveformBg canvas */}
+      <WaveformBg />
+
+      {/* Cinematic centered content */}
+      <div className="relative z-10 w-full max-w-6xl mx-auto px-6 pt-32 pb-24 flex flex-col items-center text-center">
+
+        {/* H1: Outfit, max-w-6xl, clamp font, guaranteed 2-3 lines */}
+        <h1
+          ref={h1Ref}
+          className="font-black leading-none mb-8 w-full"
+          style={{
+            fontFamily: "'Outfit', system-ui, sans-serif",
+            fontSize: "clamp(3rem, 6vw, 6rem)",
+            letterSpacing: "-0.04em",
+            lineHeight: 0.95,
+          }}
+        >
+          <span className="block overflow-hidden">
+            <span data-word style={{ display: "inline-block" }}>
+              Own your music.
+            </span>
+          </span>
+          <span className="block overflow-hidden mt-2">
+            <span data-word style={{ display: "inline-block" }}>
+              Protect{" "}
+              <span
+                className="inline-block rounded-xl overflow-hidden align-middle"
+                style={{
+                  width: "clamp(2.8rem, 5.5vw, 5.8rem)",
+                  height: "clamp(2rem, 3.8vw, 4rem)",
+                  marginBottom: "0.1em",
+                  verticalAlign: "middle",
+                }}
+              >
+                <img
+                  src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=300&q=80&auto=format"
+                  alt=""
+                  aria-hidden="true"
+                  className="w-full h-full object-cover"
+                  style={{ filter: "grayscale(40%) contrast(1.15)", opacity: 0.9 }}
+                />
+              </span>{" "}
+              your rights.
+            </span>
+          </span>
+          <span className="block overflow-hidden mt-2">
+            <span data-word className="gold-text" style={{ display: "inline-block" }}>
+              Maximize your income.
+            </span>
+          </span>
+        </h1>
+
+        <p
+          className="text-xl leading-relaxed mb-12 max-w-2xl"
+          style={{
+            fontFamily: "'Outfit', system-ui, sans-serif",
+            color: "rgba(240,240,240,0.5)",
+            animation: "reveal-up 0.7s cubic-bezier(0.4,0,0.2,1) 1s both",
+          }}
+        >
+          Rights, royalties, splits, contracts, CRM — one platform. Zero commission. Built for artists who run a real business.
+        </p>
+
+        <div
+          className="flex flex-col sm:flex-row items-center gap-4"
+          style={{ animation: "reveal-up 0.7s cubic-bezier(0.4,0,0.2,1) 1.2s both" }}
+        >
+          <Link
+            href="#waitlist"
+            className="btn-gold"
+            style={{
+              fontFamily: "'Outfit', system-ui, sans-serif",
+              padding: "18px 44px",
+              fontSize: "16px",
+              borderRadius: "14px",
+              fontWeight: 700,
+            }}
+          >
+            Start free — no card
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+              <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </Link>
+          <Link
+            href="/ecosystem"
+            className="btn-ghost"
+            style={{
+              fontFamily: "'Outfit', system-ui, sans-serif",
+              padding: "17px 40px",
+              fontSize: "16px",
+              borderRadius: "14px",
+            }}
+          >
+            See the ecosystem
+          </Link>
+        </div>
+
+        {/* Trusted by count */}
+        <div
+          className="mt-16 flex items-center gap-3"
+          style={{
+            animation: "reveal-up 0.7s cubic-bezier(0.4,0,0.2,1) 1.5s both",
+            color: "rgba(240,240,240,0.25)",
+            fontSize: "12px",
+            fontFamily: "'Outfit', system-ui, sans-serif",
+            letterSpacing: "0.04em",
+          }}
+        >
+          <div className="flex -space-x-2">
+            {[
+              "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&q=80&auto=format&fit=crop&crop=faces",
+              "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=40&h=40&q=80&auto=format&fit=crop&crop=faces",
+              "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=40&h=40&q=80&auto=format&fit=crop&crop=faces",
+              "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&q=80&auto=format&fit=crop&crop=faces",
+            ].map((url, i) => (
+              <div
+                key={i}
+                className="w-7 h-7 rounded-full overflow-hidden border-2"
+                style={{ borderColor: "#080810" }}
+              >
+                <img src={url} alt="" aria-hidden="true" className="w-full h-full object-cover" />
+              </div>
+            ))}
+          </div>
+          <span>2,400+ artists in early access</span>
+          <div className="w-1.5 h-1.5 rounded-full animate-pulse-gold" style={{ background: "#10b981" }} />
+        </div>
+      </div>
+
+      {/* Scroll indicator */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 pointer-events-none">
+        <div className="w-px h-10" style={{ background: "linear-gradient(to bottom, rgba(108,43,217,0.6), transparent)" }} />
+        <div className="w-1.5 h-1.5 rounded-full animate-scroll-hint" style={{ background: "rgba(108,43,217,0.6)" }} />
       </div>
     </section>
   );
