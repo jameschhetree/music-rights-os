@@ -256,7 +256,7 @@ export default function FeaturesSection() {
               </div>
 
               {/* KPI row */}
-              <div className="grid grid-cols-3 gap-3 mb-5">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-5">
                 {[
                   { label: "Total Works", value: "47", color: "#f5c518", delta: "+3 this month" },
                   { label: "Royalties YTD", value: "$12,840", color: "#10b981", delta: "+$2,100 vs last yr" },

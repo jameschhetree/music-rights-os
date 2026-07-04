@@ -170,22 +170,13 @@ export default function BentoSection() {
           D = col-span-1, row-span-1 → 1 cell (row 2, col 2)
           Total: 2+2+1+1 = 6 = 3×2. Zero voids. grid-flow-dense applied.
         */}
-        <div
-          className="bento-grid"
-          style={{
-            gridTemplateColumns: "repeat(3, 1fr)",
-            gridTemplateRows: "auto auto",
-            gap: "3px",
-          }}
-        >
+        <div className="bento-grid">
           {bentoCards.map((card, i) => (
             <div
               key={card.id}
               ref={(el) => { cardsRef.current[i] = el; }}
-              className="card-stack-item relative overflow-hidden group cursor-pointer"
+              className={`card-stack-item relative overflow-hidden group cursor-pointer ${card.id === "A" ? "md:col-span-2" : ""} ${card.id === "B" ? "md:row-span-2" : ""}`}
               style={{
-                gridColumn: card.id === "A" ? "span 2" : "span 1",
-                gridRow: card.id === "B" ? "span 2" : "span 1",
                 background: "rgba(11,11,22,0.95)",
                 minHeight: card.id === "B" ? "540px" : "290px",
               }}
