@@ -170,7 +170,7 @@ export default function BentoSection() {
           D = col-span-1, row-span-1 → 1 cell (row 2, col 2)
           Total: 2+2+1+1 = 6 = 3×2. Zero voids. grid-flow-dense applied.
         */}
-        <div className="bento-grid">
+        <div className="bento-grid grid grid-cols-1 md:grid-cols-3 gap-[3px]">
           {bentoCards.map((card, i) => (
             <div
               key={card.id}
