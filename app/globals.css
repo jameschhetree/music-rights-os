@@ -401,17 +401,15 @@ body {
   animation-play-state: paused;
 }
 
-.bento-grid {
-  display: grid;
-  grid-auto-flow: dense;
+.bento-card {
+  opacity: 0;
+  transform: translateY(48px) scale(0.93);
+  transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1), transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.card-stack-item {
-  will-change: transform, opacity;
-}
-
-.gsap-img {
-  will-change: transform, opacity;
+.bento-card.bento-revealed {
+  opacity: 1;
+  transform: translateY(0) scale(1);
 }
 
 .text-reveal-word {

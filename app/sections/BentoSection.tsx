@@ -1,10 +1,6 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-gsap.registerPlugin(ScrollTrigger);
 
 const bentoCards = [
   {
@@ -54,51 +50,20 @@ export default function BentoSection() {
   const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
-    if (typeof window === "undefined") return;
-
-    const cards = cardsRef.current.filter(Boolean) as HTMLDivElement[];
-    cards.forEach((card, i) => {
-      gsap.fromTo(
-        card,
-        { opacity: 0, scale: 0.93, y: 48 },
-        {
-          opacity: 1,
-          scale: 1,
-          y: 0,
-          duration: 0.95,
-          ease: "power3.out",
-          delay: i * 0.07,
-          scrollTrigger: {
-            trigger: card,
-            start: "top 88%",
-            toggleActions: "play none none none",
-          },
-        }
-      );
-
-      const img = card.querySelector<HTMLImageElement>(".gsap-img");
-      if (img) {
-        gsap.fromTo(
-          img,
-          { scale: 0.88, opacity: 0.4 },
-          {
-            scale: 1.0,
-            opacity: 1,
-            ease: "power2.out",
-            scrollTrigger: {
-              trigger: img,
-              start: "top 90%",
-              end: "bottom 25%",
-              scrub: 1.4,
-            },
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("bento-revealed");
+            observer.unobserve(entry.target);
           }
-        );
-      }
-    });
+        });
+      },
+      { threshold: 0.15 }
+    );
 
-    return () => {
-      ScrollTrigger.getAll().forEach((t) => t.kill());
-    };
+    cardsRef.current.filter(Boolean).forEach((card) => observer.observe(card!));
+    return () => observer.disconnect();
   }, []);
 
   return (
@@ -144,7 +109,7 @@ export default function BentoSection() {
                 src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=200&q=80&auto=format"
                 alt=""
                 aria-hidden="true"
-                className="w-full h-full object-cover gsap-img"
+                className="w-full h-full object-cover"
                 style={{ filter: "grayscale(40%) contrast(1.15)" }}
               />
             </span>
@@ -162,38 +127,29 @@ export default function BentoSection() {
           </p>
         </div>
 
-        {/*
-          Bento math: 3 cols × 2 rows = 6 cells
-          A = col-span-2, row-span-1 → 2 cells (row 1, cols 1-2)
-          B = col-span-1, row-span-2 → 2 cells (rows 1-2, col 3)
-          C = col-span-1, row-span-1 → 1 cell (row 2, col 1)
-          D = col-span-1, row-span-1 → 1 cell (row 2, col 2)
-          Total: 2+2+1+1 = 6 = 3×2. Zero voids. grid-flow-dense applied.
-        */}
-        <div className="bento-grid grid grid-cols-1 md:grid-cols-3 gap-[3px]">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-[3px]" style={{ gridAutoFlow: "dense" }}>
           {bentoCards.map((card, i) => (
             <div
               key={card.id}
               ref={(el) => { cardsRef.current[i] = el; }}
-              className={`card-stack-item relative overflow-hidden group cursor-pointer ${card.id === "A" ? "md:col-span-2" : ""} ${card.id === "B" ? "md:row-span-2" : ""}`}
+              className={`bento-card relative overflow-hidden group cursor-pointer ${card.id === "A" ? "md:col-span-2" : ""} ${card.id === "B" ? "md:row-span-2" : ""}`}
               style={{
                 background: "rgba(11,11,22,0.95)",
                 minHeight: card.id === "B" ? "540px" : "290px",
+                transitionDelay: `${i * 70}ms`,
               }}
             >
-              {/* Hover border glow */}
               <div
                 className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-20"
                 style={{ boxShadow: `inset 0 0 0 1px ${card.border}` }}
               />
 
-              {/* Background image */}
               <div className="absolute inset-0 z-0 overflow-hidden">
                 <img
                   src={card.img}
                   alt=""
                   aria-hidden="true"
-                  className="w-full h-full object-cover gsap-img transition-transform duration-700 ease-out group-hover:scale-105"
+                  className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                   style={{
                     filter: "grayscale(80%) contrast(1.15)",
                     mixBlendMode: "luminosity",
@@ -202,13 +158,11 @@ export default function BentoSection() {
                 />
               </div>
 
-              {/* Color accent radial */}
               <div
                 className="absolute inset-0 z-0 pointer-events-none opacity-50 group-hover:opacity-100 transition-opacity duration-500"
                 style={{ background: `radial-gradient(ellipse 65% 55% at 25% 75%, ${card.accent} 0%, transparent 65%)` }}
               />
 
-              {/* Content */}
               <div className="relative z-10 p-9 h-full flex flex-col justify-between">
                 <div>
                   <div
@@ -262,7 +216,6 @@ export default function BentoSection() {
                 </div>
               </div>
 
-              {/* Bottom accent line on hover */}
               <div
                 className="absolute bottom-0 left-0 right-0 h-px transform scale-x-0 group-hover:scale-x-100 transition-transform duration-700 origin-left"
                 style={{ background: `linear-gradient(90deg, ${card.color}, transparent)` }}
